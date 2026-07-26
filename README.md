@@ -1,16 +1,11 @@
-# WebPlatform Email
+# WebPlatform Email Connector
 
-Public development repository for the WebPlatform Email connector for WordPress.
+WordPress and WooCommerce transactional email connector for WebPlatform.
 
-The plugin source and first installable release are being prepared. This repository
-does not yet contain a production-ready WordPress plugin.
+## Install
 
-## Planned scope
+Build or download the release ZIP, upload it from WordPress under
+Plugins > Add New > Upload Plugin, and activate it.
 
-- Connect WordPress and WooCommerce to WebPlatform email services.
-- Keep provider credentials and delivery controls on WebPlatform.
-- Support account-based entitlement and secure plugin updates.
-
-## Status
-
-Development placeholder. Do not install in production yet.
+Open Settings > WebPlatform Email, enter the WebPlatform merchant API token,
+test the connection, and enable routing.

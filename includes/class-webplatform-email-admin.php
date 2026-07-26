@@ -17,6 +17,7 @@ class WebPlatform_Email_Admin
         add_action('admin_post_webplatform_email_activate', array($this, 'activate'));
         add_action('admin_post_webplatform_email_validate', array($this, 'validate_license'));
         add_action('admin_post_webplatform_email_deactivate', array($this, 'deactivate'));
+        add_action('admin_post_webplatform_email_sync', array($this, 'sync'));
     }
 
     public function menu()
@@ -60,11 +61,29 @@ class WebPlatform_Email_Admin
             return;
         }
         $settings = $this->client->settings();
+        $sync_status = $this->client->configured() ? $this->client->connector_status() : null;
+        $sync_data = !is_wp_error($sync_status) ? (array) ($sync_status['data'] ?? array()) : array();
         ?>
         <div class="wrap">
             <h1><?php esc_html_e('WebPlatform Email', 'webplatform-email'); ?></h1>
             <?php settings_errors('webplatform_email'); ?>
             <p><?php esc_html_e('Route WordPress and WooCommerce transactional messages through your WebPlatform account.', 'webplatform-email'); ?></p>
+
+            <h2><?php esc_html_e('Audience synchronization', 'webplatform-email'); ?></h2>
+            <p>
+                <?php
+                printf(
+                    /* translators: 1: synchronized contacts, 2: synchronized orders. */
+                    esc_html__('%1$d contacts and %2$d orders synchronized.', 'webplatform-email'),
+                    absint($sync_data['contacts'] ?? 0),
+                    absint($sync_data['orders'] ?? 0)
+                );
+                ?>
+            </p>
+            <?php $this->action_form('webplatform_email_sync', __('Sync WordPress data', 'webplatform-email'), 'primary'); ?>
+            <?php if (!empty($sync_data['dashboards']['email'])) : ?>
+                <a class="button button-secondary" href="<?php echo esc_url($sync_data['dashboards']['email']); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Open Email Campaigns', 'webplatform-email'); ?></a>
+            <?php endif; ?>
 
             <h2><?php esc_html_e('Activation', 'webplatform-email'); ?></h2>
             <p><?php esc_html_e('Status:', 'webplatform-email'); ?> <strong><?php echo esc_html(ucfirst($settings['license_status'])); ?></strong></p>
@@ -140,6 +159,16 @@ class WebPlatform_Email_Admin
             update_option(WebPlatform_Email_API::OPTION_KEY, $settings, false);
         }
         $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Activation removed.', 'webplatform-email'), !is_wp_error($result));
+    }
+
+    public function sync()
+    {
+        $this->authorize('webplatform_email_sync');
+        $result = $this->client->sync_wordpress(WebPlatform_Email_Sync::payload());
+        $this->notice(
+            is_wp_error($result) ? $result->get_error_message() : __('WordPress contacts and orders synchronized.', 'webplatform-email'),
+            !is_wp_error($result)
+        );
     }
 
     private function action_form($action, $label, $class = 'secondary')

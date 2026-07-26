@@ -4,7 +4,7 @@ Tags: email, transactional email, woocommerce, wp mail
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,8 @@ Features:
 * Provides an optional connection test.
 * Can be enabled or disabled without removing saved settings.
 * Does not store third-party email-provider credentials in WordPress.
+* Synchronizes WordPress users and WooCommerce orders with WebPlatform.
+* Opens the WebPlatform Email Campaigns dashboard from WordPress.
 
 == Installation ==
 
@@ -45,6 +47,10 @@ function are supported.
 WordPress continues using its normal mail configuration.
 
 == Changelog ==
+
+= 1.1.0 =
+* Added audience and order synchronization.
+* Added a direct link to the WebPlatform Email Campaigns dashboard.
 
 = 1.0.0 =
 * Initial release.

@@ -37,6 +37,16 @@ class WebPlatform_Email_API
         return $this->request('POST', '/api/merchant/email/send', $payload);
     }
 
+    public function connector_status()
+    {
+        return $this->request('GET', '/api/merchant/wordpress/status');
+    }
+
+    public function sync_wordpress($payload)
+    {
+        return $this->request('POST', '/api/merchant/wordpress/sync', $payload);
+    }
+
     public function activate_license($instance_id)
     {
         return $this->request('POST', '/api/plugin-license/activate', array(

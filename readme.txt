@@ -54,3 +54,22 @@ WordPress continues using its normal mail configuration.
 
 = 1.0.0 =
 * Initial release.
+
+== External Services ==
+
+This plugin connects to the WebPlatform service (https://webplatform.co.in) to deliver
+email and synchronise WordPress data. Specifically, it sends:
+
+* Outgoing email messages (recipient address, subject, body) to the WebPlatform email
+  delivery API when email routing is enabled.
+* WordPress user names, email addresses, and phone numbers, and WooCommerce order
+  summaries to the WebPlatform sync API when you trigger a manual sync.
+* Your site URL and plugin version to the WebPlatform licensing API during license
+  activation, validation, and deactivation.
+
+No data is transmitted unless the plugin is configured with a valid merchant API token
+and, for email routing, the routing option is explicitly enabled.
+
+* Service home page: https://webplatform.co.in/
+* Terms of service: https://webplatform.co.in/terms
+* Privacy policy: https://webplatform.co.in/privacy

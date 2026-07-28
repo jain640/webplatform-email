@@ -28,6 +28,8 @@ require_once WPEMAIL_DIR . 'includes/class-webplatform-email-woocommerce.php';
 
 function webplatform_email_boot()
 {
+    load_plugin_textdomain('webplatform-email-connector', false, dirname(plugin_basename(__FILE__)) . '/languages');
+
     $client = new WebPlatform_Email_API();
     new WebPlatform_Email_Admin($client);
     new WebPlatform_Email_Mailer($client);

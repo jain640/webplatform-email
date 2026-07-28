@@ -17,7 +17,7 @@ class WebPlatform_Email_WooCommerce
         woocommerce_form_field('webplatform_email_consent', array(
             'type' => 'checkbox',
             'class' => array('form-row-wide'),
-            'label' => __('Email me news and offers', 'webplatform-email'),
+            'label' => __('Email me news and offers', 'webplatform-email-connector'),
             'required' => false,
         ), $checkout->get_value('webplatform_email_consent'));
     }

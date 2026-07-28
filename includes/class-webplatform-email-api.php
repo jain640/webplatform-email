@@ -87,7 +87,7 @@ class WebPlatform_Email_API
         $settings = $this->settings();
         $token = '' !== $bearer ? $bearer : trim($settings['access_token']);
         if (empty($settings['base_url']) || '' === $token) {
-            return new WP_Error('webplatform_email_not_configured', __('WebPlatform Email is not configured.', 'webplatform-email'));
+            return new WP_Error('webplatform_email_not_configured', __('WebPlatform Email is not configured.', 'webplatform-email-connector'));
         }
 
         $args = array(
@@ -112,12 +112,12 @@ class WebPlatform_Email_API
         $status = wp_remote_retrieve_response_code($response);
         $decoded = json_decode(wp_remote_retrieve_body($response), true);
         if (!is_array($decoded)) {
-            return new WP_Error('webplatform_email_invalid_response', __('WebPlatform returned an invalid response.', 'webplatform-email'));
+            return new WP_Error('webplatform_email_invalid_response', __('WebPlatform returned an invalid response.', 'webplatform-email-connector'));
         }
         if ($status < 200 || $status >= 300 || empty($decoded['success'])) {
             $message = isset($decoded['message']) ? sanitize_text_field($decoded['message']) : sprintf(
                 /* translators: %d: HTTP response status code. */
-                __('WebPlatform request failed with HTTP %d.', 'webplatform-email'),
+                __('WebPlatform request failed with HTTP %d.', 'webplatform-email-connector'),
                 $status
             );
             return new WP_Error('webplatform_email_api_error', $message, array('status' => $status));

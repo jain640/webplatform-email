@@ -9,7 +9,7 @@
  * Author: WebPlatform
  * Author URI: https://webplatform.co.in/
  * License: GPL-2.0-or-later
- * Text Domain: webplatform-email
+ * Text Domain: webplatform-email-connector
  */
 
 if (!defined('ABSPATH')) {

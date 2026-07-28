@@ -23,8 +23,8 @@ class WebPlatform_Email_Admin
     public function menu()
     {
         add_options_page(
-            __('WebPlatform Email', 'webplatform-email'),
-            __('WebPlatform Email', 'webplatform-email'),
+            __('WebPlatform Email', 'webplatform-email-connector'),
+            __('WebPlatform Email', 'webplatform-email-connector'),
             'manage_options',
             'webplatform-email',
             array($this, 'render')
@@ -65,51 +65,51 @@ class WebPlatform_Email_Admin
         $sync_data = !is_wp_error($sync_status) ? (array) ($sync_status['data'] ?? array()) : array();
         ?>
         <div class="wrap">
-            <h1><?php esc_html_e('WebPlatform Email', 'webplatform-email'); ?></h1>
+            <h1><?php esc_html_e('WebPlatform Email', 'webplatform-email-connector'); ?></h1>
             <?php settings_errors('webplatform_email'); ?>
-            <p><?php esc_html_e('Route WordPress and WooCommerce transactional messages through your WebPlatform account.', 'webplatform-email'); ?></p>
+            <p><?php esc_html_e('Route WordPress and WooCommerce transactional messages through your WebPlatform account.', 'webplatform-email-connector'); ?></p>
 
-            <h2><?php esc_html_e('Audience synchronization', 'webplatform-email'); ?></h2>
+            <h2><?php esc_html_e('Audience synchronization', 'webplatform-email-connector'); ?></h2>
             <p>
                 <?php
                 printf(
                     /* translators: 1: synchronized contacts, 2: synchronized orders. */
-                    esc_html__('%1$d contacts and %2$d orders synchronized.', 'webplatform-email'),
+                    esc_html__('%1$d contacts and %2$d orders synchronized.', 'webplatform-email-connector'),
                     absint($sync_data['contacts'] ?? 0),
                     absint($sync_data['orders'] ?? 0)
                 );
                 ?>
             </p>
-            <?php $this->action_form('webplatform_email_sync', __('Sync WordPress data', 'webplatform-email'), 'primary'); ?>
+            <?php $this->action_form('webplatform_email_sync', __('Sync WordPress data', 'webplatform-email-connector'), 'primary'); ?>
             <?php if (!empty($sync_data['dashboards']['email'])) : ?>
-                <a class="button button-secondary" href="<?php echo esc_url($sync_data['dashboards']['email']); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Open Email Campaigns', 'webplatform-email'); ?></a>
+                <a class="button button-secondary" href="<?php echo esc_url($sync_data['dashboards']['email']); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Open Email Campaigns', 'webplatform-email-connector'); ?></a>
             <?php endif; ?>
 
-            <h2><?php esc_html_e('Activation', 'webplatform-email'); ?></h2>
-            <p><?php esc_html_e('Status:', 'webplatform-email'); ?> <strong><?php echo esc_html(ucfirst($settings['license_status'])); ?></strong></p>
-            <?php $this->action_form('webplatform_email_activate', __('Activate', 'webplatform-email'), 'primary'); ?>
+            <h2><?php esc_html_e('Activation', 'webplatform-email-connector'); ?></h2>
+            <p><?php esc_html_e('Status:', 'webplatform-email-connector'); ?> <strong><?php echo esc_html(ucfirst($settings['license_status'])); ?></strong></p>
+            <?php $this->action_form('webplatform_email_activate', __('Activate', 'webplatform-email-connector'), 'primary'); ?>
             <?php if (!empty($settings['license_activation_token'])) : ?>
-                <?php $this->action_form('webplatform_email_validate', __('Check activation', 'webplatform-email')); ?>
-                <?php $this->action_form('webplatform_email_deactivate', __('Deactivate', 'webplatform-email')); ?>
+                <?php $this->action_form('webplatform_email_validate', __('Check activation', 'webplatform-email-connector')); ?>
+                <?php $this->action_form('webplatform_email_deactivate', __('Deactivate', 'webplatform-email-connector')); ?>
             <?php endif; ?>
 
             <form method="post" action="options.php">
                 <?php settings_fields('webplatform_email_group'); ?>
                 <table class="form-table" role="presentation">
-                    <tr><th scope="row"><label for="wpe-base-url"><?php esc_html_e('WebPlatform URL', 'webplatform-email'); ?></label></th>
+                    <tr><th scope="row"><label for="wpe-base-url"><?php esc_html_e('WebPlatform URL', 'webplatform-email-connector'); ?></label></th>
                         <td><input id="wpe-base-url" class="regular-text" type="url" name="webplatform_email_settings[base_url]" value="<?php echo esc_attr($settings['base_url']); ?>" required></td></tr>
-                    <tr><th scope="row"><label for="wpe-token"><?php esc_html_e('Merchant API token', 'webplatform-email'); ?></label></th>
-                        <td><input id="wpe-token" class="regular-text" type="password" name="webplatform_email_settings[access_token]" value="" autocomplete="new-password" placeholder="<?php echo !empty($settings['access_token']) ? esc_attr__('Saved — enter only to replace', 'webplatform-email') : ''; ?>"></td></tr>
-                    <tr><th scope="row"><?php esc_html_e('Email routing', 'webplatform-email'); ?></th>
-                        <td><label><input type="checkbox" name="webplatform_email_settings[enabled]" value="1" <?php checked(!empty($settings['enabled'])); ?>> <?php esc_html_e('Send WordPress email through WebPlatform', 'webplatform-email'); ?></label></td></tr>
-                    <tr><th scope="row"><label for="wpe-timeout"><?php esc_html_e('Request timeout', 'webplatform-email'); ?></label></th>
-                        <td><input id="wpe-timeout" type="number" min="5" max="30" name="webplatform_email_settings[timeout]" value="<?php echo esc_attr($settings['timeout']); ?>"> <?php esc_html_e('seconds', 'webplatform-email'); ?></td></tr>
+                    <tr><th scope="row"><label for="wpe-token"><?php esc_html_e('Merchant API token', 'webplatform-email-connector'); ?></label></th>
+                        <td><input id="wpe-token" class="regular-text" type="password" name="webplatform_email_settings[access_token]" value="" autocomplete="new-password" placeholder="<?php echo !empty($settings['access_token']) ? esc_attr__('Saved — enter only to replace', 'webplatform-email-connector') : ''; ?>"></td></tr>
+                    <tr><th scope="row"><?php esc_html_e('Email routing', 'webplatform-email-connector'); ?></th>
+                        <td><label><input type="checkbox" name="webplatform_email_settings[enabled]" value="1" <?php checked(!empty($settings['enabled'])); ?>> <?php esc_html_e('Send WordPress email through WebPlatform', 'webplatform-email-connector'); ?></label></td></tr>
+                    <tr><th scope="row"><label for="wpe-timeout"><?php esc_html_e('Request timeout', 'webplatform-email-connector'); ?></label></th>
+                        <td><input id="wpe-timeout" type="number" min="5" max="30" name="webplatform_email_settings[timeout]" value="<?php echo esc_attr($settings['timeout']); ?>"> <?php esc_html_e('seconds', 'webplatform-email-connector'); ?></td></tr>
                 </table>
                 <?php submit_button(); ?>
             </form>
             <hr>
-            <h2><?php esc_html_e('Connection test', 'webplatform-email'); ?></h2>
-            <?php $this->action_form('webplatform_email_test', __('Test connection', 'webplatform-email')); ?>
+            <h2><?php esc_html_e('Connection test', 'webplatform-email-connector'); ?></h2>
+            <?php $this->action_form('webplatform_email_test', __('Test connection', 'webplatform-email-connector')); ?>
         </div>
         <?php
     }
@@ -118,7 +118,7 @@ class WebPlatform_Email_Admin
     {
         $this->authorize('webplatform_email_test');
         $result = $this->client->status();
-        $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Connected successfully.', 'webplatform-email'), !is_wp_error($result));
+        $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Connected successfully.', 'webplatform-email-connector'), !is_wp_error($result));
     }
 
     public function activate()
@@ -133,7 +133,7 @@ class WebPlatform_Email_Admin
             $settings['license_status'] = sanitize_key($result['data']['status'] ?? $result['status'] ?? 'active');
             update_option(WebPlatform_Email_API::OPTION_KEY, $settings, false);
         }
-        $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Activation completed.', 'webplatform-email'), !is_wp_error($result));
+        $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Activation completed.', 'webplatform-email-connector'), !is_wp_error($result));
     }
 
     public function validate_license()
@@ -145,7 +145,7 @@ class WebPlatform_Email_Admin
             $settings['license_status'] = sanitize_key($result['data']['status'] ?? $result['status'] ?? 'active');
             update_option(WebPlatform_Email_API::OPTION_KEY, $settings, false);
         }
-        $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Activation is valid.', 'webplatform-email'), !is_wp_error($result));
+        $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Activation is valid.', 'webplatform-email-connector'), !is_wp_error($result));
     }
 
     public function deactivate()
@@ -158,7 +158,7 @@ class WebPlatform_Email_Admin
             $settings['license_status'] = 'inactive';
             update_option(WebPlatform_Email_API::OPTION_KEY, $settings, false);
         }
-        $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Activation removed.', 'webplatform-email'), !is_wp_error($result));
+        $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Activation removed.', 'webplatform-email-connector'), !is_wp_error($result));
     }
 
     public function sync()
@@ -166,7 +166,7 @@ class WebPlatform_Email_Admin
         $this->authorize('webplatform_email_sync');
         $result = $this->client->sync_wordpress(WebPlatform_Email_Sync::payload());
         $this->notice(
-            is_wp_error($result) ? $result->get_error_message() : __('WordPress contacts and orders synchronized.', 'webplatform-email'),
+            is_wp_error($result) ? $result->get_error_message() : __('WordPress contacts and orders synchronized.', 'webplatform-email-connector'),
             !is_wp_error($result)
         );
     }
@@ -185,7 +185,7 @@ class WebPlatform_Email_Admin
     private function authorize($action)
     {
         if (!current_user_can('manage_options')) {
-            wp_die(esc_html__('You are not allowed to perform this action.', 'webplatform-email'));
+            wp_die(esc_html__('You are not allowed to perform this action.', 'webplatform-email-connector'));
         }
         check_admin_referer($action);
     }

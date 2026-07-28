@@ -24,7 +24,7 @@ class WebPlatform_Email_Mailer
         $recipients = is_array($attributes['to']) ? $attributes['to'] : explode(',', (string) $attributes['to']);
         $recipients = array_values(array_filter(array_map('sanitize_email', $recipients), 'is_email'));
         if (1 !== count($recipients)) {
-            return new WP_Error('webplatform_email_recipient_count', __('WebPlatform Email currently sends to one recipient per message.', 'webplatform-email'));
+            return new WP_Error('webplatform_email_recipient_count', __('WebPlatform Email currently sends to one recipient per message.', 'webplatform-email-connector'));
         }
 
         $headers = $this->normalize_headers($attributes['headers'] ?? array());

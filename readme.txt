@@ -1,10 +1,10 @@
 === WebPlatform Email Connector ===
-Contributors: webplatform
+Contributors: webplatform, jain640
 Tags: email, transactional email, woocommerce, wp mail
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,12 @@ WordPress continues using its normal mail configuration.
 
 == Changelog ==
 
+= 1.2.0 =
+* Support multiple recipients per message.
+* Remove hardcoded sync limits — all users and orders are now synced.
+* Remove license activation system.
+* Added jain640 as contributor.
+
 = 1.1.0 =
 * Added audience and order synchronization.
 * Added a direct link to the WebPlatform Email Campaigns dashboard.
@@ -64,8 +70,6 @@ email and synchronise WordPress data. Specifically, it sends:
   delivery API when email routing is enabled.
 * WordPress user names, email addresses, and phone numbers, and WooCommerce order
   summaries to the WebPlatform sync API when you trigger a manual sync.
-* Your site URL and plugin version to the WebPlatform licensing API during license
-  activation, validation, and deactivation.
 
 No data is transmitted unless the plugin is configured with a valid merchant API token
 and, for email routing, the routing option is explicitly enabled.

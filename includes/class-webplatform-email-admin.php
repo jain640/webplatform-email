@@ -14,9 +14,6 @@ class WebPlatform_Email_Admin
         add_action('admin_menu', array($this, 'menu'));
         add_action('admin_init', array($this, 'register_settings'));
         add_action('admin_post_webplatform_email_test', array($this, 'test'));
-        add_action('admin_post_webplatform_email_activate', array($this, 'activate'));
-        add_action('admin_post_webplatform_email_validate', array($this, 'validate_license'));
-        add_action('admin_post_webplatform_email_deactivate', array($this, 'deactivate'));
         add_action('admin_post_webplatform_email_sync', array($this, 'sync'));
     }
 
@@ -49,9 +46,6 @@ class WebPlatform_Email_Admin
             'access_token' => '' !== $token ? $token : $old['access_token'],
             'enabled' => !empty($input['enabled']) ? 1 : 0,
             'timeout' => isset($input['timeout']) ? max(5, min(30, absint($input['timeout']))) : 20,
-            'license_instance_id' => $old['license_instance_id'],
-            'license_activation_token' => $old['license_activation_token'],
-            'license_status' => $old['license_status'],
         );
     }
 
@@ -85,14 +79,6 @@ class WebPlatform_Email_Admin
                 <a class="button button-secondary" href="<?php echo esc_url($sync_data['dashboards']['email']); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Open Email Campaigns', 'webplatform-email-connector'); ?></a>
             <?php endif; ?>
 
-            <h2><?php esc_html_e('Activation', 'webplatform-email-connector'); ?></h2>
-            <p><?php esc_html_e('Status:', 'webplatform-email-connector'); ?> <strong><?php echo esc_html(ucfirst($settings['license_status'])); ?></strong></p>
-            <?php $this->action_form('webplatform_email_activate', __('Activate', 'webplatform-email-connector'), 'primary'); ?>
-            <?php if (!empty($settings['license_activation_token'])) : ?>
-                <?php $this->action_form('webplatform_email_validate', __('Check activation', 'webplatform-email-connector')); ?>
-                <?php $this->action_form('webplatform_email_deactivate', __('Deactivate', 'webplatform-email-connector')); ?>
-            <?php endif; ?>
-
             <form method="post" action="options.php">
                 <?php settings_fields('webplatform_email_group'); ?>
                 <table class="form-table" role="presentation">
@@ -119,46 +105,6 @@ class WebPlatform_Email_Admin
         $this->authorize('webplatform_email_test');
         $result = $this->client->status();
         $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Connected successfully.', 'webplatform-email-connector'), !is_wp_error($result));
-    }
-
-    public function activate()
-    {
-        $this->authorize('webplatform_email_activate');
-        $settings = $this->client->settings();
-        $instance_id = $settings['license_instance_id'] ?: wp_generate_uuid4();
-        $result = $this->client->activate_license($instance_id);
-        if (!is_wp_error($result)) {
-            $settings['license_instance_id'] = $instance_id;
-            $settings['license_activation_token'] = sanitize_text_field($result['data']['activation_token'] ?? $result['token'] ?? '');
-            $settings['license_status'] = sanitize_key($result['data']['status'] ?? $result['status'] ?? 'active');
-            update_option(WebPlatform_Email_API::OPTION_KEY, $settings, false);
-        }
-        $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Activation completed.', 'webplatform-email-connector'), !is_wp_error($result));
-    }
-
-    public function validate_license()
-    {
-        $this->authorize('webplatform_email_validate');
-        $settings = $this->client->settings();
-        $result = $this->client->validate_license($settings['license_instance_id'], $settings['license_activation_token']);
-        if (!is_wp_error($result)) {
-            $settings['license_status'] = sanitize_key($result['data']['status'] ?? $result['status'] ?? 'active');
-            update_option(WebPlatform_Email_API::OPTION_KEY, $settings, false);
-        }
-        $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Activation is valid.', 'webplatform-email-connector'), !is_wp_error($result));
-    }
-
-    public function deactivate()
-    {
-        $this->authorize('webplatform_email_deactivate');
-        $settings = $this->client->settings();
-        $result = $this->client->deactivate_license($settings['license_instance_id'], $settings['license_activation_token']);
-        if (!is_wp_error($result)) {
-            $settings['license_activation_token'] = '';
-            $settings['license_status'] = 'inactive';
-            update_option(WebPlatform_Email_API::OPTION_KEY, $settings, false);
-        }
-        $this->notice(is_wp_error($result) ? $result->get_error_message() : __('Activation removed.', 'webplatform-email-connector'), !is_wp_error($result));
     }
 
     public function sync()

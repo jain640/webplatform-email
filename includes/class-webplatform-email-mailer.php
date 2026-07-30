@@ -23,24 +23,31 @@ class WebPlatform_Email_Mailer
 
         $recipients = is_array($attributes['to']) ? $attributes['to'] : explode(',', (string) $attributes['to']);
         $recipients = array_values(array_filter(array_map('sanitize_email', $recipients), 'is_email'));
-        if (1 !== count($recipients)) {
-            return new WP_Error('webplatform_email_recipient_count', __('WebPlatform Email currently sends to one recipient per message.', 'webplatform-email-connector'));
+        if (empty($recipients)) {
+            return $return;
         }
 
         $headers = $this->normalize_headers($attributes['headers'] ?? array());
         $content_type = $headers['content-type'] ?? '';
         $is_html = false !== stripos($content_type, 'text/html');
-        $payload = array(
-            'to' => $recipients[0],
-            'subject' => wp_strip_all_tags((string) $attributes['subject']),
-            $is_html ? 'html' : 'text' => (string) $attributes['message'],
-        );
-        if (!empty($headers['reply-to']) && is_email($headers['reply-to'])) {
-            $payload['reply_to'] = sanitize_email($headers['reply-to']);
-        }
+        $reply_to = (!empty($headers['reply-to']) && is_email($headers['reply-to'])) ? sanitize_email($headers['reply-to']) : null;
 
-        $result = $this->client->send($payload);
-        return is_wp_error($result) ? $result : true;
+        $last_result = true;
+        foreach ($recipients as $recipient) {
+            $payload = array(
+                'to' => $recipient,
+                'subject' => wp_strip_all_tags((string) $attributes['subject']),
+                $is_html ? 'html' : 'text' => (string) $attributes['message'],
+            );
+            if ($reply_to) {
+                $payload['reply_to'] = $reply_to;
+            }
+            $result = $this->client->send($payload);
+            if (is_wp_error($result)) {
+                $last_result = $result;
+            }
+        }
+        return $last_result;
     }
 
     private function normalize_headers($headers)

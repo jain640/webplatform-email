@@ -15,9 +15,6 @@ class WebPlatform_Email_API
             'access_token' => '',
             'enabled' => 0,
             'timeout' => 20,
-            'license_instance_id' => '',
-            'license_activation_token' => '',
-            'license_status' => 'inactive',
         ));
     }
 
@@ -47,45 +44,10 @@ class WebPlatform_Email_API
         return $this->request('POST', '/api/merchant/wordpress/sync', $payload);
     }
 
-    public function activate_license($instance_id)
-    {
-        return $this->request('POST', '/api/plugin-license/activate', array(
-            'product_key' => 'webplatform-email',
-            'plugin' => 'webplatform-email',
-            'site_url' => home_url('/'),
-            'version' => WPEMAIL_VERSION,
-            'instance_id' => $instance_id,
-        ));
-    }
-
-    public function validate_license($instance_id, $activation_token)
-    {
-        return $this->request('POST', '/api/plugin-license/validate', array(
-            'product_key' => 'webplatform-email',
-            'plugin' => 'webplatform-email',
-            'site_url' => home_url('/'),
-            'version' => WPEMAIL_VERSION,
-            'instance_id' => $instance_id,
-            'activation_token' => $activation_token,
-        ), $activation_token);
-    }
-
-    public function deactivate_license($instance_id, $activation_token)
-    {
-        return $this->request('POST', '/api/plugin-license/deactivate', array(
-            'product_key' => 'webplatform-email',
-            'plugin' => 'webplatform-email',
-            'site_url' => home_url('/'),
-            'version' => WPEMAIL_VERSION,
-            'instance_id' => $instance_id,
-            'activation_token' => $activation_token,
-        ), $activation_token);
-    }
-
-    private function request($method, $path, $body = null, $bearer = '')
+    private function request($method, $path, $body = null)
     {
         $settings = $this->settings();
-        $token = '' !== $bearer ? $bearer : trim($settings['access_token']);
+        $token = trim($settings['access_token']);
         if (empty($settings['base_url']) || '' === $token) {
             return new WP_Error('webplatform_email_not_configured', __('WebPlatform Email is not configured.', 'webplatform-email-connector'));
         }

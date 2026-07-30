@@ -9,7 +9,7 @@ class WebPlatform_Email_Sync
     public static function payload()
     {
         $contacts = array();
-        foreach (get_users(array('number' => 100, 'orderby' => 'ID', 'order' => 'DESC')) as $user) {
+        foreach (get_users(array('orderby' => 'ID', 'order' => 'DESC')) as $user) {
             $contacts[] = array(
                 'id' => 'user:' . $user->ID,
                 'email' => sanitize_email($user->user_email),
@@ -23,7 +23,7 @@ class WebPlatform_Email_Sync
 
         $orders = array();
         if (function_exists('wc_get_orders')) {
-            foreach (wc_get_orders(array('limit' => 100, 'orderby' => 'modified', 'order' => 'DESC')) as $order) {
+            foreach (wc_get_orders(array('orderby' => 'modified', 'order' => 'DESC')) as $order) {
                 if ('yes' === $order->get_meta('_webplatform_email_consent')) {
                     $contacts[] = array(
                         'id' => 'order-contact:' . $order->get_id(),
@@ -49,8 +49,8 @@ class WebPlatform_Email_Sync
 
         return array(
             'site_url' => home_url('/'),
-            'contacts' => array_slice($contacts, 0, 100),
-            'orders' => array_slice($orders, 0, 100),
+            'contacts' => $contacts,
+            'orders' => $orders,
         );
     }
 }

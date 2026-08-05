@@ -4,7 +4,7 @@ Tags: email, transactional email, woocommerce, wp mail
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,11 @@ function are supported.
 WordPress continues using its normal mail configuration.
 
 == Changelog ==
+
+= 1.3.0 =
+* Redesigned the settings screen as a guided three-step setup.
+* Added clear connection and email-routing status indicators.
+* Improved field guidance, responsive layout, and action hierarchy.
 
 = 1.2.0 =
 * Support multiple recipients per message.

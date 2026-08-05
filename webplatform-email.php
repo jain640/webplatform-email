@@ -3,7 +3,7 @@
  * Plugin Name: WebPlatform Email Connector
  * Plugin URI: https://webplatform.co.in/plugins
  * Description: Send WordPress and WooCommerce transactional email through WebPlatform.
- * Version: 1.2.0
+ * Version: 1.3.0
  * Requires at least: 6.5
  * Requires PHP: 7.4
  * Author: WebPlatform
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('WPEMAIL_VERSION', '1.2.0');
+define('WPEMAIL_VERSION', '1.3.0');
 define('WPEMAIL_FILE', __FILE__);
 define('WPEMAIL_DIR', plugin_dir_path(__FILE__));
 

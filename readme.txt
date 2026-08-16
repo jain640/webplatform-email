@@ -4,7 +4,7 @@ Tags: email, transactional email, woocommerce, wp mail
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,7 @@ Features:
 * Does not store third-party email-provider credentials in WordPress.
 * Synchronizes WordPress users and WooCommerce orders with WebPlatform.
 * Opens the WebPlatform Email Campaigns dashboard from WordPress.
+* Uses the current WebPlatform logo and icon on the connector settings screen.
 
 == Installation ==
 
@@ -47,6 +48,11 @@ function are supported.
 WordPress continues using its normal mail configuration.
 
 == Changelog ==
+
+= 1.3.1 =
+* Updated the plugin author branding to WebPlatform.
+* Added the current WebPlatform logo and icon to the plugin package and settings screen.
+* Added WordPress 7.1 compatibility validation and release documentation.
 
 = 1.3.0 =
 * Redesigned the settings screen as a guided three-step setup.

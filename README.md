@@ -16,3 +16,7 @@ Plugins > Add New > Upload Plugin, and activate it.
 
 Open Settings > WebPlatform Email, enter the WebPlatform merchant API token,
 test the connection, and enable routing.
+
+## WordPress 7.1 validation
+
+Before changing the WordPress.org `Tested up to` value to 7.1, complete the compatibility checklist in `docs/wordpress-7.1-validation.md` on WordPress 7.1 RC/final and run WordPress Plugin Check. Keep `Tested up to: 7.0` until that validation passes.
